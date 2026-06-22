@@ -3,3 +3,4 @@ v1.2.0
 - Added Grief Aura
 - Added Noclip
 - Improved Anti ChatSpy
+- Anti Grief Now Works On OG Server [ haven't tested yet. bc bkit always broken 💔 ]
