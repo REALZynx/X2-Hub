@@ -1,8 +1,10 @@
+script
+- changed ui to syde. essencejs
 the chosen one
 - Added Auto Donate
 - Added Grief Aura
 - Added Noclip
 - Improved Anti ChatSpy
 - Anti Grief Now Works On OG Server [ haven't tested yet. bc bkit always broken 💔 ]
-mm2
+murder mystery 2
 - improved knife silent aim [ auto / manual ]
