@@ -1105,7 +1105,7 @@ local GetFlag, SetFlag, CheckFlag do
 end
 
 local ScreenGui = Create("ScreenGui", CoreGui, {
-	Name = "redz Library V5",
+	Name = "redzLibraryV5",
 }, {
 	Create("UIScale", {
 		Scale = UIScale,
@@ -1495,10 +1495,13 @@ function redzlib:MakeWindow(Configs)
 		}), "DarkText")
 	}), "Text")
 	
+	local UserCardHeight = 46
+	local UserCardGap = 6
+
 	local MainScroll = InsertTheme(Create("ScrollingFrame", Components, {
-		Size = UDim2.new(0, redzlib.Save.TabSize, 1, -TopBar.Size.Y.Offset),
+		Size = UDim2.new(0, redzlib.Save.TabSize, 1, -TopBar.Size.Y.Offset - UserCardHeight - UserCardGap),
 		ScrollBarImageColor3 = Theme["Color Theme"],
-		Position = UDim2.new(0, 0, 1, 0),
+		Position = UDim2.new(0, 0, 1, -UserCardHeight - UserCardGap),
 		AnchorPoint = Vector2.new(0, 1),
 		ScrollBarThickness = 1.5,
 		BackgroundTransparency = 1,
@@ -1518,6 +1521,52 @@ function redzlib:MakeWindow(Configs)
 			Padding = UDim.new(0, 5)
 		})
 	}), "ScrollBar")
+
+	local UserCard = InsertTheme(Create("Frame", Components, {
+		Size = UDim2.new(0, redzlib.Save.TabSize, 0, UserCardHeight),
+		Position = UDim2.new(0, 0, 1, 0),
+		AnchorPoint = Vector2.new(0, 1),
+		BackgroundColor3 = Theme["Color Hub 2"],
+		Name = "User Card"
+	}), "Frame")
+	Make("Corner", UserCard, UDim.new(0, 10))
+	Make("Stroke", UserCard)
+
+	local UserAvatar = Create("ImageLabel", UserCard, {
+		Size = UDim2.new(0, 32, 0, 32),
+		Position = UDim2.new(0, 8, 0.5),
+		AnchorPoint = Vector2.new(0, 0.5),
+		Image = "rbxthumb://type=AvatarHeadShot&id=" .. Player.UserId .. "&w=150&h=150",
+		BackgroundTransparency = 1,
+		Name = "Avatar"
+	})
+	Make("Corner", UserAvatar, UDim.new(0, 8))
+
+	local UserDisplayName = InsertTheme(Create("TextLabel", UserCard, {
+		Size = UDim2.new(1, -50, 0, 14),
+		Position = UDim2.new(0, 46, 0, 8),
+		Font = Enum.Font.GothamBold,
+		TextColor3 = Theme["Color Text"],
+		TextXAlignment = "Left",
+		TextTruncate = "AtEnd",
+		BackgroundTransparency = 1,
+		TextSize = 11,
+		Text = Player.DisplayName,
+		Name = "DisplayName"
+	}), "Text")
+
+	local UserUsername = InsertTheme(Create("TextLabel", UserCard, {
+		Size = UDim2.new(1, -50, 0, 12),
+		Position = UDim2.new(0, 46, 0, 23),
+		Font = Enum.Font.Gotham,
+		TextColor3 = Theme["Color Dark Text"],
+		TextXAlignment = "Left",
+		TextTruncate = "AtEnd",
+		BackgroundTransparency = 1,
+		TextSize = 9,
+		Text = "@" .. Player.Name,
+		Name = "Username"
+	}), "DarkText")
 	
 	local Containers = Create("Frame", Components, {
 		Size = UDim2.new(1, -MainScroll.Size.X.Offset, 1, -TopBar.Size.Y.Offset),
@@ -1549,7 +1598,8 @@ function redzlib:MakeWindow(Configs)
 		ControlSize1.Position = UDim2.fromOffset(math.clamp(Pos1.X.Offset, 430, 1000), math.clamp(Pos1.Y.Offset, 200, 500))
 		ControlSize2.Position = UDim2.new(0, math.clamp(Pos2.X.Offset, 135, 250), 1, 0)
 		
-		MainScroll.Size = UDim2.new(0, ControlSize2.Position.X.Offset, 1, -TopBar.Size.Y.Offset)
+		MainScroll.Size = UDim2.new(0, ControlSize2.Position.X.Offset, 1, -TopBar.Size.Y.Offset - UserCardHeight - UserCardGap)
+		UserCard.Size = UDim2.new(0, ControlSize2.Position.X.Offset, 0, UserCardHeight)
 		Containers.Size = UDim2.new(1, -MainScroll.Size.X.Offset, 1, -TopBar.Size.Y.Offset)
 		MainFrame.Size = ControlSize1.Position
 	end
@@ -1596,6 +1646,22 @@ function redzlib:MakeWindow(Configs)
 	
 	local Minimized, SaveSize, WaitClick
 	local Window, FirstTab = {}, false
+	local IsAnonymous = false
+	function Window:Anonymous(State)
+		IsAnonymous = State and true or false
+
+		if IsAnonymous then
+			UserDisplayName.Text = "Anonymous"
+			UserUsername.Text = "@••••••••"
+			UserAvatar.Image = "rbxthumb://type=AvatarHeadShot&id=1&w=150&h=150"
+		else
+			UserDisplayName.Text = Player.DisplayName
+			UserUsername.Text = "@" .. Player.Name
+			UserAvatar.Image = "rbxthumb://type=AvatarHeadShot&id=" .. Player.UserId .. "&w=150&h=150"
+		end
+
+		return IsAnonymous
+	end
 	function Window:CloseBtn()
 		local Dialog = Window:Dialog({
 			Title = "Close",
