@@ -1,10 +1,10 @@
 script
-- changed ui to syde. essencejs
+<gradient:#F48A53:#33DD00>[ / ]</gradient> changed ui to fluent ++.
 the chosen one
-- Added Auto Donate
-- Added Grief Aura
-- Added Noclip
-- Improved Anti ChatSpy
-- Anti Grief Now Works On OG Server [ haven't tested yet. bc bkit always broken 💔 ]
+<gradient:#077056:#A1FFD9>[ + ]</gradient> Added Auto Donate
+<gradient:#077056:#A1FFD9>[ + ]</gradient> Added Grief Aura
+<gradient:#077056:#A1FFD9>[ + ]</gradient> Added Noclip
+<gradient:#F48A53:#33DD00>[ / ]</gradient> Improved Anti ChatSpy
+<gradient:#F48A53:#33DD00>[ / ]</gradient> Anti Grief Now Works On OG Server [ haven't tested yet. bc bkit always broken 💔 ]
 murder mystery 2
 - improved knife silent aim [ auto / manual ]
