@@ -1794,71 +1794,115 @@ function redzlib:MakeWindow(Configs)
 			local Logo = Configs[2] or Configs.Logo or ""
 			local Invite = Configs[3] or Configs.Invite or ""
 			
+			local Blurple = Color3.fromRGB(88, 101, 242)
+			local BlurpleHover = Color3.fromRGB(71, 82, 196)
+			
 			local InviteHolder = Create("Frame", Container, {
-				Size = UDim2.new(1, 0, 0, 80),
+				Size = UDim2.new(1, 0, 0, 78),
 				Name = "Option",
 				BackgroundTransparency = 1
 			})
 			
-			local InviteLabel = Create("TextLabel", InviteHolder, {
-				Size = UDim2.new(1, 0, 0, 15),
-				Position = UDim2.new(0, 5),
-				TextColor3 = Color3.fromRGB(40, 150, 255),
-				Font = Enum.Font.GothamBold,
-				TextXAlignment = "Left",
-				BackgroundTransparency = 1,
-				TextSize = 10,
-				Text = Invite
-			})
-			
 			local FrameHolder = InsertTheme(Create("Frame", InviteHolder, {
-				Size = UDim2.new(1, 0, 0, 65),
-				AnchorPoint = Vector2.new(0, 1),
-				Position = UDim2.new(0, 0, 1),
+				Size = UDim2.new(1, 0, 1, 0),
 				BackgroundColor3 = Theme["Color Hub 2"]
-			}), "Frame")Make("Corner", FrameHolder)
+			}), "Frame")Make("Corner", FrameHolder, UDim.new(0, 10))Make("Stroke", FrameHolder)
 			
-			local ImageLabel = Create("ImageLabel", FrameHolder, {
-				Size = UDim2.new(0, 30, 0, 30),
-				Position = UDim2.new(0, 7, 0, 7),
-				Image = Logo,
+			local Logomark = InsertTheme(Create("Frame", FrameHolder, {
+				Size = UDim2.new(0, 42, 0, 42),
+				Position = UDim2.new(0, 10, 0, 10),
+				BackgroundColor3 = Blurple
+			}), "Frame")Make("Corner", Logomark, UDim.new(0, 10))
+			
+			local LogomarkImage = Create("ImageLabel", Logomark, {
+				Size = UDim2.new(1, -12, 1, -12),
+				AnchorPoint = Vector2.new(0.5, 0.5),
+				Position = UDim2.new(0.5, 0, 0.5, 0),
+				Image = Logo ~= "" and Logo or redzlib:GetIcon("messagecircle"),
+				ImageColor3 = Color3.fromRGB(255, 255, 255),
+				ScaleType = Logo ~= "" and Enum.ScaleType.Crop or Enum.ScaleType.Fit,
 				BackgroundTransparency = 1
-			})Make("Corner", ImageLabel, UDim.new(0, 8))Make("Stroke", ImageLabel)
+			})
+			if Logo ~= "" then Make("Corner", LogomarkImage, UDim.new(0, 6)) end
 			
 			local LTitle = InsertTheme(Create("TextLabel", FrameHolder, {
-				Size = UDim2.new(1, -52, 0, 15),
-				Position = UDim2.new(0, 44, 0, 7),
+				Size = UDim2.new(1, -140, 0, 14),
+				Position = UDim2.new(0, 62, 0, 10),
 				Font = Enum.Font.GothamBold,
 				TextColor3 = Theme["Color Text"],
 				TextXAlignment = "Left",
+				TextTruncate = "AtEnd",
 				BackgroundTransparency = 1,
-				TextSize = 10,
+				TextSize = 12,
 				Text = Title
 			}), "Text")
 			
 			local LDesc = InsertTheme(Create("TextLabel", FrameHolder, {
-				Size = UDim2.new(1, -52, 0, 0),
-				Position = UDim2.new(0, 44, 0, 22),
-				TextWrapped = "Y",
-				AutomaticSize = "Y",
+				Size = UDim2.new(1, -140, 0, 12),
+				Position = UDim2.new(0, 62, 0, 27),
 				Font = Enum.Font.Gotham,
 				TextColor3 = Theme["Color Dark Text"],
 				TextXAlignment = "Left",
+				TextTruncate = "AtEnd",
 				BackgroundTransparency = 1,
-				TextSize = 8,
+				TextSize = 9,
 				Text = Desc
 			}), "DarkText")
 			
+			local LInvite = InsertTheme(Create("TextLabel", FrameHolder, {
+				Size = UDim2.new(1, -140, 0, 12),
+				Position = UDim2.new(0, 62, 0, 44),
+				Font = Enum.Font.Code,
+				TextColor3 = Theme["Color Dark Text"],
+				TextXAlignment = "Left",
+				TextTruncate = "AtEnd",
+				BackgroundTransparency = 1,
+				TextSize = 9,
+				Text = Invite
+			}), "DarkText")
+			
 			local JoinButton = Create("TextButton", FrameHolder, {
-				Size = UDim2.new(1, -14, 0, 16),
-				AnchorPoint = Vector2.new(0.5, 1),
-				Position = UDim2.new(0.5, 0, 1, -7),
-				Text = "Join",
+				Size = UDim2.new(0, 68, 0, 26),
+				AnchorPoint = Vector2.new(1, 0.5),
+				Position = UDim2.new(1, -10, 0.5, 0),
+				Text = "",
+				AutoButtonColor = false,
+				BackgroundColor3 = Blurple
+			})Make("Corner", JoinButton, UDim.new(1, 0))
+			
+			local JoinContent = Create("Frame", JoinButton, {
+				Size = UDim2.new(1, 0, 1, 0),
+				BackgroundTransparency = 1
+			})
+			Create("UIListLayout", JoinContent, {
+				FillDirection = "Horizontal",
+				HorizontalAlignment = "Center",
+				VerticalAlignment = "Center",
+				Padding = UDim.new(0, 4)
+			})
+			
+			local JoinIcon = Create("ImageLabel", JoinContent, {
+				Size = UDim2.new(0, 12, 0, 12),
+				Image = redzlib:GetIcon("copy"),
+				ImageColor3 = Color3.fromRGB(255, 255, 255),
+				BackgroundTransparency = 1
+			})
+			
+			local JoinLabel = Create("TextLabel", JoinContent, {
+				Size = UDim2.new(0, 32, 0, 14),
 				Font = Enum.Font.GothamBold,
-				TextSize = 12,
-				TextColor3 = Color3.fromRGB(220, 220, 220),
-				BackgroundColor3 = Color3.fromRGB(50, 150, 50)
-			})Make("Corner", JoinButton, UDim.new(0, 10))
+				TextColor3 = Color3.fromRGB(255, 255, 255),
+				TextSize = 11,
+				BackgroundTransparency = 1,
+				Text = "Join"
+			})
+			
+			JoinButton.MouseEnter:Connect(function()
+				CreateTween({JoinButton, "BackgroundColor3", BlurpleHover, 0.2})
+			end)
+			JoinButton.MouseLeave:Connect(function()
+				CreateTween({JoinButton, "BackgroundColor3", Blurple, 0.2})
+			end)
 			
 			local ClickDelay
 			JoinButton.Activated:Connect(function()
@@ -1866,16 +1910,12 @@ function redzlib:MakeWindow(Configs)
 				if ClickDelay then return end
 				
 				ClickDelay = true
-				SetProps(JoinButton, {
-					Text = "Copied to Clipboard",
-					BackgroundColor3 = Color3.fromRGB(100, 100, 100),
-					TextColor3 = Color3.fromRGB(150, 150, 150)
-				})task.wait(5)
-				SetProps(JoinButton, {
-					Text = "Join",
-					BackgroundColor3 = Color3.fromRGB(50, 150, 50),
-					TextColor3 = Color3.fromRGB(220, 220, 220)
-				})ClickDelay = false
+				JoinIcon.Image = redzlib:GetIcon("check")
+				JoinLabel.Text = "Copied"
+				task.wait(1.5)
+				JoinIcon.Image = redzlib:GetIcon("copy")
+				JoinLabel.Text = "Join"
+				ClickDelay = false
 			end)
 			
 			local DiscordInvite = {}
